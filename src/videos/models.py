@@ -60,6 +60,9 @@ class Video(models.Model):
     #
     #     super().save(*args, **kwargs)
 
+    def get_playlist_ids(self):
+        return list(self.playlist_set.all().values_list('id',flat=True))
+
 
 class VideoPublishedProxy(Video):
     class Meta:
