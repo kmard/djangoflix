@@ -25,8 +25,13 @@ class PlaylistModelTestCase(TestCase):
     def test_playlist_video(self):
         self.assertEqual(self.obj_a.video, self.video_a)
 
+    # def test_video_playlist_ids_property(self):
+    #     ids = self.obj_a.get_playlist_ids()
+    #     actual_ids = list(Playlist.objects.filter(video =  self.video_a).values_list('id',flat=True))
+    #     self.assertEqual(ids, actual_ids)
+
     def test_video_playlist(self):
-       qs = self.video_a.playlist_set.all()
+       qs = self.video_a.playlist_featured.all()
        self.assertTrue(qs.count() == 2)
 
 

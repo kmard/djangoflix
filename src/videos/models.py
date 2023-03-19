@@ -53,15 +53,8 @@ class Video(models.Model):
 
     objects = VideoManager()
 
-    # def save(self, *args, **kwargs):
-    #
-    #     # if self.slug is None:
-    #     #     self.slug = slugify(self.title)
-    #
-    #     super().save(*args, **kwargs)
-
     def get_playlist_ids(self):
-        return list(self.playlist_set.all().values_list('id',flat=True))
+        return list(self.playlist_featured.all().values_list('id',flat=True))
 
 
 class VideoPublishedProxy(Video):
@@ -78,24 +71,7 @@ class VideoAllProxy(Video):
         verbose_name_plural = 'All Videos'
 
 
-# def publish_state_pre_save(sender, instance, *args, **kwargs):
-#     is_publish = instance.state == PublishStateOptions.PUBLISH
-#     is_draft = instance.state == PublishStateOptions.DRAFT
-#
-#     if is_publish and instance.publish_timestamp is None:
-#         # print('save as timestamp for published')
-#         instance.publish_timestamp = timezone.now()
-#     elif is_draft:
-#         instance.publish_timestamp = None
-
-
 pre_save.connect(publish_state_pre_save, sender=Video)
 
-
-# def slugify_pre_save(sender,instance,*args,**kwargs):
-#     title = instance.title
-#     slug = instance.slug
-#     if slug is None:
-#         instance.slug = slugify(title)
 
 pre_save.connect(slugify_pre_save, sender=Video)
